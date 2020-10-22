@@ -1,0 +1,55 @@
+$cardWidth: 156px;
+$cardHeight: 242px;
+
+@mixin coloredNumberCards($color, $row) {
+  @for $i from 0 through 9 {
+    &.#{$color}#{$i} {
+      @include spritePosition($i, $row);
+    }
+  }
+}
+
+@mixin coloredActionCards($color, $row) {
+  &.#{$color}skip {
+    @include spritePosition(10, $row);
+  }
+  &.#{$color}reverse {
+    @include spritePosition(11, $row);
+  }
+  &.#{$color}drawTwo {
+    @include spritePosition(12, $row);
+  }
+}
+
+@mixin spritePosition($col, $row) {
+  $x: ($col * $cardWidth) * -1;
+  $y: ($row * $cardHeight) * -1;
+  background-position:  $x $y;
+}
+
+.card {
+  border: none;
+  background: url('/imgs/cards.png');
+  @include spritePosition(0, 4);
+  margin: 0;
+  padding: 0;
+  width: $cardWidth;
+  height: $cardHeight;
+
+  @include coloredNumberCards('red', 0);
+  @include coloredActionCards('red', 0);
+  @include coloredNumberCards('green', 1);
+  @include coloredActionCards('green', 1);
+  @include coloredNumberCards('blue', 2);
+  @include coloredActionCards('blue', 2);
+  @include coloredNumberCards('yellow', 3);
+  @include coloredActionCards('yellow', 3);
+
+  &.wild {
+    @include spritePosition(2, 4);
+  }
+
+  &.wilddrawFour {
+    @include spritePosition(1, 4);
+  }
+}

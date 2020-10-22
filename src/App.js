@@ -1,24 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import { useStore } from 'effector-react';
+
+import { connect } from './network';
+import { gameService } from './services/game';
+
 import './App.css';
+import { Player } from './components/Player';
 
 function App() {
+  const [name, setName] = useState('');
+  const { room } = useStore(gameService.$);
+
+  useEffect(() => {
+    console.log('EFFECT: ', room?.players[0]);
+  }, [room?.timestamp]);
+
+  const onChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const play = () => {
+    try {
+      connect(name);
+    } catch (error) {
+      console.error(`Error connecting`, error);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>lets play UNO!</p>
+      {room === null && (
+        <div>
+          <input type="text" onChange={onChange} />
+          <button type="button" onClick={play}>
+            Play
+          </button>
+        </div>
+      )}
+      {room?.players && room.players.map((player) => <Player key={player.name} player={player} />)}
     </div>
   );
 }
