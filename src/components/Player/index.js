@@ -4,15 +4,28 @@ import { useStore } from 'effector-react';
 
 import styles from '../../styles/global.module.scss';
 
-export const Player = ({ player }) => {
-  const getCards = () => {};
+export const Player = ({ player, send }) => {
+  const getCard = () => {
+    send('getCard');
+  };
+
+  const ready = () => {
+    send('ready', true);
+  };
 
   return (
     <div>
-      <button type="button" onClick={getCards}>
-        Get Cards
+      <button type="button" onClick={getCard}>
+        Get Card
       </button>
-      <p>{player.name}</p>
+      {player.id && (
+        <button type="button" onClick={ready}>
+          Ready {player.name}
+        </button>
+      )}
+      <p>
+        {player.name}:{player.id}
+      </p>
       <ul>
         {player.cards
           ? player.cards.map((card) => (
@@ -22,7 +35,7 @@ export const Player = ({ player }) => {
                 </button>
               </li>
             ))
-          : [...(new Array(player.cardsLength))].map((_, index) => <li key={index} className={styles.card}></li>)}
+          : [...new Array(player.cardsLength)].map((_, index) => <li key={index} className={styles.card}></li>)}
       </ul>
     </div>
   );

@@ -8,7 +8,11 @@ export const connect = async (name) => {
 
   room = await client.joinOrCreate('uno', { name });
   room.onStateChange((state) => {
-    console.log(state);
+    console.log('state:', state);
     gameService.networkUpdate({ ...state, timestamp: Date.now() });
   });
 };
+
+export const send = (type, payload) => {
+  room.send(type, payload);
+}

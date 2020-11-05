@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useStore } from 'effector-react';
 
-import { connect } from './network';
+import { connect, send } from './network';
 import { gameService } from './services/game';
 
 import './App.css';
@@ -38,7 +38,7 @@ function App() {
           </button>
         </div>
       )}
-      {room?.players && room.players.map((player) => <Player key={player.name} player={player} />)}
+      {room?.players && room.players.map((player) => <Player key={player.name} player={player} send={send} />)}
     </div>
   );
 }
