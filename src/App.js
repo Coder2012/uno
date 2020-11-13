@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useStore } from 'effector-react';
+import cn from 'classnames';
 
 import { connect, send } from './network';
 import { gameService } from './services/game';
-
-import './App.css';
 import { Player } from './components/Player';
+
+import globalStyles from './styles/global.module.scss';
+import './styles/styles.scss';
 
 function App() {
   const [name, setName] = useState('');
@@ -19,7 +21,7 @@ function App() {
     setName(event.target.value);
   };
 
-  const play = () => {
+  const joinGame = () => {
     try {
       connect(name);
     } catch (error) {
@@ -33,12 +35,19 @@ function App() {
       {room === null && (
         <div>
           <input type="text" onChange={onChange} />
-          <button type="button" onClick={play}>
-            Play
+          <button type="button" onClick={joinGame}>
+            Join Game
           </button>
         </div>
       )}
-      {room?.players && room.players.map((player) => <Player key={player.name} player={player} send={send} />)}
+      <section className={globalStyles.stack}>
+      {room?.stack &&
+        room.stack.map((card, index) => <div style={{ transform: `translate(-50%, -50%) rotate(${index * 10}deg)` }} className={cn(globalStyles.card, globalStyles[card.className], globalStyles.played)}></div>)}
+      </section>
+      {room?.players &&
+        room.players.map((player) => (
+          <Player key={player.name} isRunning={room.isRunning} player={player} send={send} />
+        ))}
     </div>
   );
 }

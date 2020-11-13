@@ -1,41 +1,38 @@
 import React from 'react';
 import cn from 'classnames';
-import { useStore } from 'effector-react';
 
-import styles from '../../styles/global.module.scss';
+import globalStyles from '../../styles/global.module.scss';
+import styles from './styles.module.scss';
 
-export const Player = ({ player, send }) => {
-  const getCard = () => {
-    send('getCard');
+export const Player = ({isRunning, player, send }) => {
+  const playCard = (id) => {
+    send('playCard', id);
   };
 
-  const ready = () => {
-    send('ready', true);
+  const startGame = () => {
+    send('start');
   };
 
   return (
     <div>
-      <button type="button" onClick={getCard}>
-        Get Card
-      </button>
-      {player.id && (
-        <button type="button" onClick={ready}>
-          Ready {player.name}
+      <p>
+        {player.name}:{player.id}{!isRunning && !player.isOwner && ' Waiting...'}
+      </p>
+      {!isRunning && player.id && player.isOwner && (
+        <button type="button" onClick={startGame}>
+          Start Game
         </button>
       )}
-      <p>
-        {player.name}:{player.id}
-      </p>
-      <ul>
+      <ul className={styles.cards}>
         {player.cards
           ? player.cards.map((card) => (
               <li key={card.id}>
-                <button className={cn(styles.card, styles[card.className])} type="button">
+                <button onClick={() => playCard(card.id)} className={cn(globalStyles.card, globalStyles[card.className])} type="button">
                   id:{card.id} {card.color} {card.value && card.value}
                 </button>
               </li>
             ))
-          : [...new Array(player.cardsLength)].map((_, index) => <li key={index} className={styles.card}></li>)}
+          : [...new Array(player.cardsLength)].map((_, index) => <li key={index} className={globalStyles.card}></li>)}
       </ul>
     </div>
   );

@@ -24,7 +24,15 @@ $cardHeight: 242px;
 @mixin spritePosition($col, $row) {
   $x: ($col * $cardWidth) * -1;
   $y: ($row * $cardHeight) * -1;
-  background-position:  $x $y;
+  background-position: $x $y;
+}
+
+.stack {
+  display: inline-block;
+  background-color: azure;
+  position: relative;
+  width: $cardHeight * 2;
+  height: $cardHeight * 2;
 }
 
 .card {
@@ -49,7 +57,13 @@ $cardHeight: 242px;
     @include spritePosition(2, 4);
   }
 
-  &.wilddrawFour {
+  &.wildDrawFour {
     @include spritePosition(1, 4);
+  }
+
+  &.played {
+    position: absolute;
+    left: 50%;
+    top: 50%;
   }
 }
