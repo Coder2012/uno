@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useStore } from 'effector-react';
 import cn from 'classnames';
 
@@ -12,10 +12,6 @@ import './styles/styles.scss';
 function App() {
   const [name, setName] = useState('');
   const { room } = useStore(gameService.$);
-
-  useEffect(() => {
-    console.log('EFFECT: ', room?.players[0]);
-  }, [room?.timestamp]);
 
   const onChange = (event) => {
     setName(event.target.value);
@@ -42,7 +38,7 @@ function App() {
       )}
       <section className={globalStyles.stack}>
       {room?.stack &&
-        room.stack.map((card, index) => <div style={{ transform: `translate(-50%, -50%) rotate(${index * 10}deg)` }} className={cn(globalStyles.card, globalStyles[card.className], globalStyles.played)}></div>)}
+        room.stack.map((card, index) => <div key={card.id} style={{ transform: `translate(-50%, -50%) rotate(${index * 10}deg)` }} className={cn(globalStyles.card, globalStyles[card.className], globalStyles.played)}></div>)}
       </section>
       {room?.players &&
         room.players.map((player) => (
