@@ -42,8 +42,10 @@ function App() {
       </section>
       {room?.players &&
         room.players.map((player) => (
-          <Player key={player.name} isRunning={room.isRunning} player={player} send={send} />
+          <Player key={player.name} send={send} isRunning={room?.isRunning} onMessage={room?.onMessage} player={player} />
         ))}
+        onMessage:{room?.onMessage}
+        send:{room?.send}
     </div>
   );
 }

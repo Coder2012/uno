@@ -11,6 +11,10 @@ export const connect = async (name) => {
     console.log('state:', state);
     gameService.networkUpdate({ ...state, timestamp: Date.now() });
   });
+
+  room.onMessage('getColor', (cardId) => {
+    gameService.colorRequested(cardId);
+  });
 };
 
 export const send = (type, payload) => {

@@ -1,0 +1,26 @@
+.container {
+  $size: 40px;
+  height: $size;
+
+  .block {
+    display: inline-block;
+    width: $size;
+    height: $size;
+  }
+
+  .red {
+    background-color: red;
+  }
+
+  .green {
+    background-color: green;
+  }
+
+  .yellow {
+    background-color: yellow;
+  }
+
+  .blue {
+    background-color: blue;
+  }
+}
