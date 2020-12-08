@@ -4,7 +4,7 @@ import cn from 'classnames';
 import globalStyles from '../../styles/global.module.scss';
 import styles from './styles.module.scss';
 
-export const Player = ({ isRunning, send, player }) => {
+export const Player = ({ isRunning, isActive, send, player }) => {
   const playCard = (id) => {
     send('playCard', id);
   };
@@ -26,21 +26,20 @@ export const Player = ({ isRunning, send, player }) => {
         </button>
       )}
 
-      <ul className={styles.cards}>
+      <section className={cn(styles.cards, { [styles.isActive]: isActive })}>
         {player.cards
           ? player.cards.map((card) => (
-              <li key={card.id}>
-                <button
-                  onClick={() => playCard(card.id, card.action?.type)}
-                  className={cn(globalStyles.card, globalStyles[card.className])}
-                  type="button"
-                >
-                  id:{card.id} {card.color} {card.value && card.value} {card.action?.type}
-                </button>
-              </li>
+              <button
+                key={card.id}
+                onClick={() => playCard(card.id)}
+                className={cn(globalStyles.card, globalStyles[card.className], styles.card)}
+                type="button"
+              >
+                id:{card.id} {card.color} {card.value && card.value} {card.action?.type}
+              </button>
             ))
-          : [...new Array(player.cardsLength)].map((_, index) => <li key={index} className={globalStyles.card}></li>)}
-      </ul>
+          : [...new Array(player.cardsLength)].map((_, index) => <div key={index} className={globalStyles.card}></div>)}
+      </section>
     </div>
   );
 };

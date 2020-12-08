@@ -9,7 +9,7 @@ export const connect = async (name) => {
   room = await client.joinOrCreate('uno', { name });
   room.onStateChange((state) => {
     console.log('state:', state);
-    gameService.networkUpdate({ ...state, timestamp: Date.now() });
+    gameService.networkUpdate({ ...state, timestamp: Date.now(), sessionId: room.sessionId });
   });
 
   room.onMessage('getColor', (cardId) => {

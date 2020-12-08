@@ -16,7 +16,7 @@ function App() {
   const { room } = useStore(gameService.$);
 
   useEffect(() => {
-    gameService.colorRequested.watch(_ => {
+    gameService.colorRequested.watch((_) => {
       setShowColorSelector(true);
     });
   }, []);
@@ -38,6 +38,10 @@ function App() {
     send('colorSelected', colorId);
   };
 
+  const getCard = () => {
+    send('getCard');
+  };
+
   return (
     <div className="App">
       <p>lets play UNO!</p>
@@ -50,16 +54,38 @@ function App() {
         </div>
       )}
       <section className={globalStyles.stack}>
-      {room?.stack &&
-        room.stack.map((card, index) => <div key={card.id} style={{ transform: `translate(-50%, -50%) rotate(${index * 10}deg)` }} className={cn(globalStyles.card, globalStyles[card.className], globalStyles.played)}></div>)}
+        {room?.stack &&
+          room.stack.map((card, index) => (
+            <div
+              key={card.id}
+              style={{ transform: `translate(-50%, -50%) rotate(${index * 10}deg)` }}
+              className={cn(globalStyles.card, globalStyles[card.className], globalStyles.played)}
+            ></div>
+          ))}
+      </section>
+      <section className={globalStyles.deck}>
+        sessionId: {room?.sessionId}
+        activePlayerId: {room?.activePlayerId}
+        {room?.deckSize && room?.sessionId === room?.activePlayerId ? (
+          <button onClick={() => getCard()} className={globalStyles.card} type="button"></button>
+        ) : (
+          <div className={globalStyles.card}></div>
+        )}
       </section>
       {showColorSelector && <ColorSelector clickHandler={handleColorSelector} />}
       {room?.players &&
         room.players.map((player) => (
-          <Player key={player.name} send={send} isRunning={room?.isRunning} onMessage={room?.onMessage} player={player} />
+          <Player
+            key={player.name}
+            send={send}
+            isRunning={room?.isRunning}
+            isActive={player.id === room?.activePlayerId}
+            onMessage={room?.onMessage}
+            player={player}
+          />
         ))}
-        onMessage:{room?.onMessage}
-        send:{room?.send}
+      onMessage:{room?.onMessage}
+      send:{room?.send}
     </div>
   );
 }
