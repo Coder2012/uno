@@ -4,7 +4,8 @@ import { gameService } from '../services/game';
 let room;
 
 export const connect = async (name) => {
-  const client = new Colyseus.Client(process.env.UNO_SERVER || 'ws://localhost:2567');
+  const client = new Colyseus.Client(process.env.REACT_APP_UNO_SERVER || 'ws://localhost:8080');
+  console.log(process.env.REACT_APP_UNO_SERVER);
 
   room = await client.joinOrCreate('uno', { name });
   room.onStateChange((state) => {
@@ -19,4 +20,4 @@ export const connect = async (name) => {
 
 export const send = (type, payload) => {
   room.send(type, payload);
-}
+};
