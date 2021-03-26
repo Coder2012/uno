@@ -79,7 +79,7 @@ function App() {
             key={player.name}
             send={send}
             isRunning={room?.isRunning}
-            isActive={player.id === room?.activePlayerId}
+            isActive={player.friendlyId === room?.activeFriendlyId}
             onMessage={room?.onMessage}
             player={player}
           />

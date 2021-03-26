@@ -13,18 +13,24 @@ export const Player = ({ isRunning, isActive, send, player }) => {
     send('start');
   };
 
+  const ready = () => {
+    send('ready');
+  }
+
   return (
     <div>
       <p>
-        {player.name}:{player.id}
-        {!isRunning && !player.isOwner && ' Waiting...'}
+        Name {player.name}: friendly {player.friendlyId} : id {player.id}
+        {!isRunning && !player.isReady && !player.isOwner && <button type="button" onClick={ready}>
+         Ready {player.id}
+        </button>}
       </p>
 
       {!isRunning && player.id && player.isOwner && (
         <button type="button" onClick={startGame}>
-          Start Game
+          Start Game {player.id}
         </button>
-      )}
+      )} 
 
       <section className={cn(styles.cards, { [styles.isActive]: isActive })}>
         {player.cards
@@ -34,8 +40,8 @@ export const Player = ({ isRunning, isActive, send, player }) => {
                 onClick={() => playCard(card.id)}
                 className={cn(globalStyles.card, globalStyles[card.className], styles.card)}
                 type="button"
+                title={`id:${card.id} ${card.color} ${card.value && card.value} ${card.action?.type}`}
               >
-                id:{card.id} {card.color} {card.value && card.value} {card.action?.type}
               </button>
             ))
           : [...new Array(player.cardsLength)].map((_, index) => <div key={index} className={globalStyles.card}></div>)}
