@@ -42,6 +42,10 @@ function App() {
     send('getCard');
   };
 
+  const getActivePlayer = () => {
+    return room?.players.filter(player => player.id === room?.activePlayerId)[0];
+  }
+
   return (
     <div className="App">
       <p>lets play UNO!</p>
@@ -66,7 +70,8 @@ function App() {
       <section className={globalStyles.deck}>
         sessionId: {room?.sessionId}
         activePlayerId: {room?.activePlayerId}
-        {room?.deckSize && room?.sessionId === room?.activePlayerId ? (
+        <p>active player id = {getActivePlayer()?.id}</p>
+        {room?.deckSize && room?.sessionId === room?.activePlayerId && getActivePlayer()?.isPickupActive === true ? (
           <button onClick={() => getCard()} className={globalStyles.card} type="button"></button>
         ) : (
           <div className={globalStyles.card}></div>

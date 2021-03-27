@@ -17,16 +17,26 @@ export const Player = ({ isRunning, isActive, send, player }) => {
     send('ready');
   }
 
+  const hasStartOption = (player) => {
+    return isRunning === false && player.isReady === false && player.isOwner === false;
+  }
+
+  const hasReadyOption = (player) => {
+    return isRunning === false && player.id && player.isOwner;
+  }
+
   return (
     <div>
       <p>
         Name {player.name}: friendly {player.friendlyId} : id {player.id}
-        {!isRunning && !player.isReady && !player.isOwner && <button type="button" onClick={ready}>
-         Ready {player.id}
-        </button>}
+        {hasStartOption(player) && (
+          <button type="button" onClick={ready}>
+          Ready {player.id}
+          </button>
+        )}
       </p>
 
-      {!isRunning && player.id && player.isOwner && (
+      {hasReadyOption(player) && (
         <button type="button" onClick={startGame}>
           Start Game {player.id}
         </button>
