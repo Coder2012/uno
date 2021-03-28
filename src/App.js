@@ -4,6 +4,7 @@ import cn from 'classnames';
 
 import { connect, send } from './network';
 import { gameService } from './services/game';
+import { Status } from './components/Status';
 import { Player } from './components/Player';
 import { ColorSelector } from './components/ColorSelector';
 
@@ -26,6 +27,7 @@ function App() {
   };
 
   const joinGame = () => {
+    console.log('join game')
     try {
       connect(name);
     } catch (error) {
@@ -49,14 +51,7 @@ function App() {
   return (
     <div className="App">
       <p>lets play UNO!</p>
-      {room === null && (
-        <div>
-          <input type="text" onChange={onChange} />
-          <button type="button" onClick={joinGame}>
-            Join Game
-          </button>
-        </div>
-      )}
+      <Status room={room} onClickHandler={joinGame} onChangeHandler={onChange} />
       <section className={globalStyles.stack}>
         {room?.stack &&
           room.stack.map((card, index) => (
