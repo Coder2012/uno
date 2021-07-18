@@ -27,7 +27,7 @@ function App() {
   };
 
   const joinGame = () => {
-    console.log('join game')
+    console.log('join game');
     try {
       connect(name);
     } catch (error) {
@@ -45,13 +45,36 @@ function App() {
   };
 
   const getActivePlayer = () => {
-    return room?.players.filter(player => player.id === room?.activePlayerId)[0];
-  }
+    return room?.players.filter((player) => player.id === room?.activePlayerId)[0];
+  };
+
+  const hasWinner = () => {
+    return room?.players?.filter((player) => player.isWinner);
+  };
+
+  const getWinner = () => {
+    return room?.players.filter((player) => player.isWinner)[0]?.name;
+  };
 
   return (
     <div className="App">
       <p>lets play UNO!</p>
       <Status room={room} onClickHandler={joinGame} onChangeHandler={onChange} />
+      {room?.players?.map((player) => {
+        if (!player.id?.includes(player.friendlyId)) {
+          return (
+            <Player
+              key={player.name}
+              send={send}
+              isRunning={room?.isRunning}
+              isActive={player.friendlyId === room?.activeFriendlyId}
+              onMessage={room?.onMessage}
+              player={player}
+            />
+          );
+        }
+        return null;
+      })}
       <section className={globalStyles.stack}>
         {room?.stack &&
           room.stack.map((card, index) => (
@@ -63,27 +86,40 @@ function App() {
           ))}
       </section>
       <section className={globalStyles.deck}>
+        {room?.players && hasWinner() && `${getWinner()} is the winner`}
         sessionId: {room?.sessionId}
         activePlayerId: {room?.activePlayerId}
         <p>active player id = {getActivePlayer()?.id}</p>
         {room?.deckSize && room?.sessionId === room?.activePlayerId && getActivePlayer()?.isPickupActive === true ? (
-          <button onClick={() => getCard()} className={globalStyles.card} type="button"></button>
+          <>
+            <button onClick={() => getCard()} className={globalStyles.card} type="button"></button>
+            <p>Cards: {room?.deckSize}</p>
+          </>
         ) : (
-          <div className={globalStyles.card}></div>
+          room?.deckSize && (
+            <>
+              <div className={globalStyles.card} />
+              <p>Cards: {room?.deckSize}</p>
+            </>
+          )
         )}
       </section>
       {showColorSelector && <ColorSelector clickHandler={handleColorSelector} />}
-      {room?.players &&
-        room.players.map((player) => (
-          <Player
-            key={player.name}
-            send={send}
-            isRunning={room?.isRunning}
-            isActive={player.friendlyId === room?.activeFriendlyId}
-            onMessage={room?.onMessage}
-            player={player}
-          />
-        ))}
+      {room?.players?.map((player) => {
+        if (player.id?.includes(player.friendlyId)) {
+          return (
+            <Player
+              key={player.name}
+              send={send}
+              isRunning={room?.isRunning}
+              isActive={player.friendlyId === room?.activeFriendlyId}
+              onMessage={room?.onMessage}
+              player={player}
+            />
+          );
+        }
+        return null;
+      })}
       onMessage:{room?.onMessage}
       send:{room?.send}
     </div>
