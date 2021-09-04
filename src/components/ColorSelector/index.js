@@ -1,13 +1,47 @@
 import React from 'react';
 import styles from './styles.module.scss';
 
-export const ColorSelector = ({clickHandler}) => {
+export const ColorSelector = ({ clickHandler }) => {
   return (
     <section className={styles.container}>
-      <button id="green" onClick={() => clickHandler('green')} type="button" className={styles.green}>Green</button>
-      <button id="red" onClick={() => clickHandler('red')} type="button" className={styles.red}>Red</button>
-      <button id="blue" onClick={() => clickHandler('blue')} type="button" className={styles.blue}>Blue</button>
-      <button id="yellow" onClick={() => clickHandler('yellow')} type="button" className={styles.yellow}>Yellow</button>
+      <svg xmlns="http://www.w3.org/2000/svg" width="184.605464" height="184.607426" viewBox="0 0 48.843529 48.844048">
+        <a id="red" onClick={() => clickHandler('red')} type="button" className={styles.red}>
+          <g fill="red">
+            <path
+              d="M23.152076 0A24.45516 24.45516 0 000 23.152589h14.686958a9.822153 9.554884 0 018.465118-8.204666z"
+              opacity=".3"
+            />
+            <path d="M21.068633 1.800096C15.704397 2.59171 10.642968 5.35389 7.090455 9.510223 4.187029 12.8935 2.281463 17.136637 1.740507 21.565722h11.650391c1.031135-3.857146 4.300323-6.993114 8.173828-7.923829V1.737596c-.165364.02083-.330729.04167-.496093.0625z" />
+          </g>
+        </a>
+        <a id="green" onClick={() => clickHandler('green')} type="button" className={styles.green}>
+          <g fill="#0f0">
+            <path
+              d="M0 25.691454a24.45516 24.45516 0 0023.152076 23.152073v-14.94689a9.822153 9.554884 0 01-8.465634-8.205183z"
+              opacity=".3"
+            />
+            <path d="M1.771757 27.5833c.992204 7.393782 5.860468 14.151541 12.597657 17.375 2.198422 1.07523 4.708089 1.846565 7.195312 2.144531V35.204393c-3.871263-.93395-7.148677-4.064457-8.171875-7.925781H1.734648l.03711.304688z" />
+          </g>
+        </a>
+        <a id="blue" onClick={() => clickHandler('blue')} type="button" className={styles.blue}>
+          <g fill="#00f">
+            <path
+              d="M25.691454 0v14.947407a9.822153 9.554884 0 018.465117 8.205182h14.68696A24.45516 24.45516 0 0025.691453-.000001z"
+              opacity=".3"
+            />
+            <path d="M27.27957 13.63994c3.873082.932009 7.144635 4.066771 8.171875 7.925782h11.658203c-.917987-7.769281-6.147702-14.8588-13.31779-18.001349-2.065678-.921958-4.266762-1.546714-6.512288-1.826777V13.63994z" />
+          </g>
+        </a>
+        <a id="yellow" onClick={() => clickHandler('yellow')} type="button" className={styles.yellow}>
+          <g fill="#fd5">
+            <path
+              d="M34.156055 25.691454a9.822153 9.554884 0 01-8.4646 8.205184v14.947407A24.45516 24.45516 0 0048.84353 25.691454z"
+              opacity=".3"
+            />
+            <path d="M35.303007 27.786425c-1.170995 3.626372-4.322921 6.525593-8.023437 7.417968V47.10869c7.881851-.928028 15.062543-6.301103 18.134034-13.627127.851017-1.974851 1.420726-4.070214 1.694091-6.202951H35.445586c-.04753.169271-.09505.338542-.142579.507813z" />
+          </g>
+        </a>
+      </svg>
     </section>
   );
 };
