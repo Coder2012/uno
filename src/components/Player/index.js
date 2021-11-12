@@ -24,7 +24,7 @@ export const Player = ({ isRunning, isActive, send, player }) => {
   const isVisibleToPlayer = () => player.id?.includes(player.friendlyId);
 
   return (
-    <div>
+    <>
       <p>
         Name {player.name}: friendly {player.friendlyId} : id {player.id}
         {hasReadyOption() && isVisibleToPlayer() && (
@@ -59,6 +59,6 @@ export const Player = ({ isRunning, isActive, send, player }) => {
             ))
           : [...new Array(player.cardsLength)].map((_, index) => <div key={index} className={globalStyles.card}></div>)}
       </section>
-    </div>
+    </>
   );
 };

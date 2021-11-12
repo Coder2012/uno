@@ -8,6 +8,7 @@ import { Status } from './components/Status';
 import { Player } from './components/Player';
 import { ColorSelector } from './components/ColorSelector';
 
+import { ReactComponent as UnoLogo } from './assets/uno_logo.svg';
 import globalStyles from './styles/global.module.scss';
 import './styles/styles.scss';
 
@@ -57,71 +58,81 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <p>lets play UNO!</p>
-      <Status room={room} onClickHandler={joinGame} onChangeHandler={onChange} />
-      {room?.players?.map((player) => {
-        if (!player.id?.includes(player.friendlyId)) {
-          return (
-            <Player
-              key={player.name}
-              send={send}
-              isRunning={room?.isRunning}
-              isActive={player.friendlyId === room?.activeFriendlyId}
-              onMessage={room?.onMessage}
-              player={player}
-            />
-          );
-        }
-        return null;
-      })}
-      <section className={globalStyles.stack}>
-        {room?.stack &&
-          room.stack.map((card, index) => (
-            <div
-              key={card.id}
-              style={{ transform: `translate(-50%, -50%) rotate(${index * 10}deg)` }}
-              className={cn(globalStyles.card, globalStyles[card.className], globalStyles.played)}
-            ></div>
-          ))}
+    <div className="app">
+      <header>
+        <UnoLogo />
+        <Status room={room} onClickHandler={joinGame} onChangeHandler={onChange} />
+      </header>
+      <section className="player1">
+        {room?.players?.map((player) => {
+          if (!player.id?.includes(player.friendlyId)) {
+            return (
+              <Player
+                key={player.name}
+                send={send}
+                isRunning={room?.isRunning}
+                isActive={player.friendlyId === room?.activeFriendlyId}
+                onMessage={room?.onMessage}
+                player={player}
+              />
+            );
+          }
+          return null;
+        })}
       </section>
-      <section className={globalStyles.deck}>
-        {room?.players && hasWinner() && `${getWinner()} is the winner`}
-        sessionId: {room?.sessionId}
-        activePlayerId: {room?.activePlayerId}
-        <p>active player id = {getActivePlayer()?.id}</p>
-        {room?.deckSize && room?.sessionId === room?.activePlayerId && getActivePlayer()?.isPickupActive === true ? (
-          <>
-            <button onClick={() => getCard()} className={globalStyles.card} type="button"></button>
-            <p>Cards: {room?.deckSize}</p>
-          </>
-        ) : (
-          room?.deckSize && (
+      <section className="main">
+        <section className={globalStyles.stack}>
+          {room?.stack &&
+            room.stack.map((card, index) => (
+              <div
+                key={card.id}
+                style={{ transform: `translate(-50%, -50%) rotate(${index * 10}deg)` }}
+                className={cn(globalStyles.card, globalStyles[card.className], globalStyles.played)}
+              ></div>
+            ))}
+        </section>
+        <section className={globalStyles.deck}>
+          {room?.players && hasWinner() && `${getWinner()} is the winner`}
+          sessionId: {room?.sessionId}
+          activePlayerId: {room?.activePlayerId}
+          <p>active player id = {getActivePlayer()?.id}</p>
+          {room?.deckSize && room?.sessionId === room?.activePlayerId && getActivePlayer()?.isPickupActive === true ? (
             <>
-              <div className={globalStyles.card} />
+              <button onClick={() => getCard()} className={globalStyles.card} type="button"></button>
               <p>Cards: {room?.deckSize}</p>
             </>
-          )
-        )}
+          ) : (
+            room?.deckSize && (
+              <>
+                <div className={globalStyles.card} />
+                <p>Cards: {room?.deckSize}</p>
+              </>
+            )
+          )}
+        </section>
+        {showColorSelector && <ColorSelector clickHandler={handleColorSelector} />}
       </section>
-      {showColorSelector && <ColorSelector clickHandler={handleColorSelector} />}
-      {room?.players?.map((player) => {
-        if (player.id?.includes(player.friendlyId)) {
-          return (
-            <Player
-              key={player.name}
-              send={send}
-              isRunning={room?.isRunning}
-              isActive={player.friendlyId === room?.activeFriendlyId}
-              onMessage={room?.onMessage}
-              player={player}
-            />
-          );
-        }
-        return null;
-      })}
-      onMessage:{room?.onMessage}
-      send:{room?.send}
+      <section className="player2">
+        {room?.players?.map((player) => {
+          if (player.id?.includes(player.friendlyId)) {
+            return (
+              <Player
+                key={player.name}
+                send={send}
+                isRunning={room?.isRunning}
+                isActive={player.friendlyId === room?.activeFriendlyId}
+                onMessage={room?.onMessage}
+                player={player}
+              />
+            );
+          }
+          return null;
+        })}
+      </section>
+      <footer>
+        onMessage:{room?.onMessage}
+        send:{room?.send}
+      </footer>
     </div>
   );
 }

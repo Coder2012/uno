@@ -1,13 +1,15 @@
 .cards {
-    background-color: red;
-    display: flex;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    transform: scale(0.5);
+  background-color: red;
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  transform-origin: 0 0;
+  transform: scale(0.5) translate(50%, 0);
+  justify-content: center;
+}
 
-    .card {
-    }
+.card {
 }
 
 .isActive {
